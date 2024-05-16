@@ -1,7 +1,9 @@
+version: '3.8'
+
 services:
   nginx-service:
     image: nginx:stable-alpine
-    container_name: nginx-container
+    container_name: optimum-nginx
     ports:
       - "8080:80"
     volumes:
@@ -16,7 +18,7 @@ services:
     build:
       context: .
       dockerfile: ./docker/php/Dockerfile
-    container_name: php82-container
+    container_name: optimum-php82
     ports:
       - "9000:9000"
     volumes:
@@ -25,7 +27,7 @@ services:
       - nginx-php82-mysql8
   mysql8-service:
     image: mysql:8
-    container_name: mysql8-container
+    container_name: optimum-mysql8
     ports:
       - "3306:3306"
     volumes:
@@ -37,5 +39,18 @@ services:
       MYSQL_PASSWORD: secret
     networks:
       - nginx-php82-mysql8
+
+  rabbitmq-service:
+    image: rabbitmq:3-management
+    container_name: optimum-rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      - nginx-php82-mysql8
+
 networks:
-  nginx-php82-mysql8
+  nginx-php82-mysql8:

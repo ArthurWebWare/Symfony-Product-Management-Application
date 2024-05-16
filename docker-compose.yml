@@ -20,7 +20,7 @@ services:
       dockerfile: ./docker/php/Dockerfile
     container_name: optimum-php82
     ports:
-      - "9000:9000"
+      - "9001:9000"
     volumes:
       - ./app:/var/www/project
     networks:

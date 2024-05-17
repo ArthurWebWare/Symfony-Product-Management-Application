@@ -20,6 +20,7 @@ services:
     container_name: ${PROJECT_NAME}-php-fpm
     depends_on:
       - mysql
+      - rabbitmq
 
   php-cli:
     build:
@@ -28,6 +29,9 @@ services:
       - ./app:/symfony
     command: sleep 10000
     container_name: ${PROJECT_NAME}-php-cli
+    depends_on:
+      - mysql
+      - rabbitmq
 
   mysql:
     image: mysql:8.0
@@ -41,6 +45,16 @@ services:
       - "MYSQL_DATABASE=${MYSQL_DATABASE}"
       - "MYSQL_USER=${MYSQL_USER}"
       - "MYSQL_PASSWORD=${MYSQL_PASSWORD}"
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: ${PROJECT_NAME}-rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RMQ_PASS}
 
 volumes:
   mysql:

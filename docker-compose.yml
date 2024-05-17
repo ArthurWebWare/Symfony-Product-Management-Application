@@ -40,6 +40,8 @@ services:
       - mysql:/var/lib/mysql
     container_name: ${PROJECT_NAME}-mysql
     restart: always
+    ports:
+      - "3306:3306"
     environment:
       - "MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}"
       - "MYSQL_DATABASE=${MYSQL_DATABASE}"

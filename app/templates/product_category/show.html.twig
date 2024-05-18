@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Product Category{% endblock %}
+
+{% block body %}
+    <h1>Product Category</h1>
+
+    <table>
+        <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ product_category.id }}</td>
+        </tr>
+        <tr>
+            <th>Name</th>
+            <td>{{ product_category.name }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('product_category_index') }}">back to list</a>
+    <a href="{{ path('product_category_edit', {'id': product_category.id}) }}">edit</a>
+
+    <form method="post" action="{{ path('product_category_delete', {'id': product_category.id}) }}" style="display: inline-block">
+        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product_category.id) }}">
+        <button class="btn" type="submit">delete</button>
+    </form>
+{% endblock %}

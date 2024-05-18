@@ -27,6 +27,9 @@ ARG PGID=1000
 RUN groupmod -o -g ${PGID} www-data && \
     usermod -o -u ${PUID} -g www-data www-data
 
+# Create cache dir and set dir owner .npm
+RUN mkdir -p /var/www/.npm && chown -R www-data:www-data /var/www/.npm
+
 COPY --chown=www-data:www-data . .
 
 # Changing directory owner.

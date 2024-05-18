@@ -1,15 +1,21 @@
 FROM php:8.2-cli
 
+# Install necessary dependencies
 RUN apt-get update && apt-get install -y \
     libpq-dev \
     wget \
     zlib1g-dev \
     libmcrypt-dev \
     libzip-dev \
+    curl \
     && apt-get clean \
     && docker-php-ext-install pdo pdo_mysql mysqli zip
 
-# Install Composer
+# Install Node.js
+RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash - && \
+    apt-get install -y nodejs
+
+# Установка Composer
 RUN wget https://getcomposer.org/installer -O - -q | php -- --install-dir=/bin --filename=composer --quiet
 
 WORKDIR /symfony

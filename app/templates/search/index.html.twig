@@ -12,7 +12,7 @@
         {% else %}
             <ul>
                 {% for product in products %}
-                    <li>{{ product.name }} - {{ product.description }}</li>
+                    <li><a href="/product-category/{{ product.id }}">{{ product.name }} - {{ product.description }}</a></li>
                 {% endfor %}
             </ul>
         {% endif %}
@@ -22,7 +22,7 @@
         {% else %}
             <ul>
                 {% for category in categories %}
-                    <li>{{ category.name }} - {{ category.description }}</li>
+                    <li><a href="/product-category/{{ category.id }}">{{ category.name }} - {{ category.description }}</a></li>
                 {% endfor %}
             </ul>
         {% endif %}

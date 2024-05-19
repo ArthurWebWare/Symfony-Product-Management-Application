@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Symfony Product Management Application{% endblock %}
+
+{% block body %}
+    <h1 class="display-4">Symfony Product Management Application</h1>
+    <hr>
+    <h2>Overview</h2>
+    <p>This project is a Symfony application developed using the Symfony 7 framework and integrated with the Bootstrap CSS framework. The application provides a comprehensive solution for managing product categories and products with full CRUD functionality. It also includes email notification capabilities using RabbitMQ for asynchronous processing.</p>
+
+    <h2>Features</h2>
+    <ul>
+        <li><strong>Product Category Management</strong>
+            <ul>
+                <li>Create, Read, Update, and Delete (CRUD) operations for product categories.</li>
+                <li>User-friendly interface for managing product categories.</li>
+            </ul>
+        </li>
+        <li><strong>Product Management</strong>
+            <ul>
+                <li>Create, Read, Update, and Delete (CRUD) operations for products.</li>
+                <li>Products can be assigned to multiple categories.</li>
+            </ul>
+        </li>
+        <li><strong>Forms</strong>
+            <ul>
+                <li>"Add Category" form for creating new product categories.</li>
+                <li>"Add Product" form for creating new products.</li>
+            </ul>
+        </li>
+        <li><strong>Email Notifications</strong>
+            <ul>
+                <li>Configured to send email notifications when a new product is created.</li>
+                <li>Uses RabbitMQ for queue-based email sending to ensure efficient processing.</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h2>Requirements</h2>
+    <ul>
+        <li>PHP 8.x</li>
+        <li>Symfony 7.x</li>
+        <li>Bootstrap CSS</li>
+        <li>RabbitMQ</li>
+    </ul>
+
+    <h2>Installation</h2>
+    <p>TBD</p>
+{% endblock %}

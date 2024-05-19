@@ -3,8 +3,12 @@
 namespace App\Entity;
 
 use App\Repository\ProductCategoryRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use DateTimeImmutable;
+
 
 #[ORM\Entity(repositoryClass: ProductCategoryRepository::class)]
 class ProductCategory
@@ -20,11 +24,21 @@ class ProductCategory
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $createdAt = null;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    private ?\DateTimeInterface $createdAt;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $updatedAt = null;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?\DateTimeInterface $updatedAt;
+
+    #[ORM\ManyToMany(targetEntity: Product::class, mappedBy: "categories")]
+    private Collection $products;
+
+    public function __construct()
+    {
+        $this->products = new ArrayCollection();
+        $this->createdAt = new DateTimeImmutable();
+        $this->updatedAt = new DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
@@ -67,22 +81,41 @@ class ProductCategory
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): static
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
     public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTimeInterface $updatedAt): static
+    /**
+     * @return Collection
+     */
+    public function getProducts(): Collection
     {
-        $this->updatedAt = $updatedAt;
+        return $this->products;
+    }
 
+    /**
+     * @param Product $product
+     * @return $this
+     */
+    public function addProduct(Product $product): self
+    {
+        if (!$this->products->contains($product)) {
+            $this->products[] = $product;
+            $product->addCategory($this);
+        }
+        return $this;
+    }
+
+    /**
+     * @param Product $product
+     * @return $this
+     */
+    public function removeProduct(Product $product): self
+    {
+        if ($this->products->removeElement($product)) {
+            $product->removeCategory($this);
+        }
         return $this;
     }
 }

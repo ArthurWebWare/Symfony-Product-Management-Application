@@ -1,0 +1,14 @@
+{% block entity_widget %}
+    {% if expanded %}
+        <div {{ block('widget_container_attributes') }}>
+            {% for child in form %}
+                <div class="form-check form-switch">
+                    {{ form_widget(child, { attr: { class: 'form-check-input' } }) }}
+                    {{ form_label(child, null, { label_attr: { class: 'form-check-label' } }) }}
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        {{ block('choice_widget') }}
+    {% endif %}
+{% endblock %}

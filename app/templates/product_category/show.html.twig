@@ -3,26 +3,47 @@
 {% block title %}Product Category{% endblock %}
 
 {% block body %}
-    <h1>Product Category</h1>
+    <div class="row">
+        <div class="col-12 d-flex justify-content-between">
+            <div>
+                <h3>{{ product_category.name }}</h3>
+            </div>
+            <div>
+                <a class="btn btn-outline-info" href="{{ path('product_category_index') }}">Return to categories list</a>
+                <a class="btn btn-outline-success" href="{{ path('product_category_edit', {'id': product_category.id}) }}">Edit</a>
 
-    <table>
-        <tbody>
-        <tr>
-            <th>Id</th>
-            <td>{{ product_category.id }}</td>
-        </tr>
-        <tr>
-            <th>Name</th>
-            <td>{{ product_category.name }}</td>
-        </tr>
-        </tbody>
-    </table>
+                <form method="post" action="{{ path('product_category_delete', {'id': product_category.id}) }}" style="display: inline-block">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product_category.id) }}">
+                    <button class="btn btn-outline-danger" type="submit">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
 
-    <a href="{{ path('product_category_index') }}">back to list</a>
-    <a href="{{ path('product_category_edit', {'id': product_category.id}) }}">edit</a>
+    <hr>
 
-    <form method="post" action="{{ path('product_category_delete', {'id': product_category.id}) }}" style="display: inline-block">
-        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product_category.id) }}">
-        <button class="btn" type="submit">delete</button>
-    </form>
+    <div class="row align-items-center justify-content-between">
+        <div class="col-4">
+            <table class="table">
+                <tbody class="table-group-divider">
+                <tr>
+                    <th>Id</th>
+                    <td>{{ product_category.id }}</td>
+                </tr>
+                <tr>
+                    <th>Description</th>
+                    <td>{{ product_category.description }}</td>
+                </tr>
+                <tr>
+                    <th>Created at</th>
+                    <td>{{ product_category.createdAt|date('Y-m-d H:i:s') }}</td>
+                </tr>
+                <tr>
+                    <th>Updated at</th>
+                    <td>{{ product_category.updatedAt|date('Y-m-d H:i:s') }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 {% endblock %}

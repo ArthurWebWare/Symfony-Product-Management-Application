@@ -3,17 +3,23 @@
 {% block title %}Edit Product Category{% endblock %}
 
 {% block body %}
-    <h1>Edit Product Category</h1>
+    <h1>Edit new Product Category</h1>
 
     {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    <div class="mb-3">
+        {{ form_row(form.name, {
+            'label': 'Name'
+        }) }}
+    </div>
+    <div class="mb-3">
+        {{ form_row(form.description, {
+            'label': 'Description'
+        }) }}
+    </div>
+    <div class="mb-3">
+        <button class="btn btn-outline-success">{{ button_label|default('Save') }}</button>
+    </div>
     {{ form_end(form) }}
 
-    <a href="{{ path('product_category_index') }}">back to list</a>
-
-    <form method="post" action="{{ path('product_category_delete', {'id': product_category.id}) }}" style="display: inline-block">
-        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product_category.id) }}">
-        <button class="btn" type="submit">delete</button>
-    </form>
+    <a class="btn btn-outline-primary" href="{{ path('product_category_index') }}">Back to categories list</a>
 {% endblock %}

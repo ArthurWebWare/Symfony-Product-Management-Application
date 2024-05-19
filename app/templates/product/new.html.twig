@@ -6,9 +6,41 @@
     <h1>Create new Product</h1>
 
     {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    <div class="mb-3">
+        {{ form_row(form.name, {
+            'label': 'Name'
+        }) }}
+    </div>
+    <div class="mb-3">
+        {{ form_row(form.description, {
+            'label': 'Description'
+        }) }}
+    </div>
+    <div class="mb-3">
+        {{ form_row(form.price, {
+            'label': 'Price'
+        }) }}
+    </div>
+    <div class="mb-3">
+        {{ form_row(form.stock, {
+            'label': 'Stock'
+        }) }}
+    </div>
+    <div class="mb-3">
+        {{ form_row(form.discount, {
+            'label': 'Discount'
+        }) }}
+    </div>
+    <div class="mb-3">
+        {{ form_row(form.categories, {
+            'label': 'Categories'
+        }) }}
+    </div>
+    <div class="mb-3">
+        <button class="btn btn-outline-success">{{ button_label|default('Save') }}</button>
+        <a class="btn btn-outline-danger" href="{{ path('product_index') }}">Back to list</a>
+    </div>
     {{ form_end(form) }}
 
-    <a href="{{ path('product_index') }}">back to list</a>
+
 {% endblock %}

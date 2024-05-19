@@ -3,33 +3,56 @@
 {% block title %}Products{% endblock %}
 
 {% block body %}
-    <h1>Products</h1>
+    <div class="row">
+        <div class="col-10">
+            <h1>Products</h1>
+        </div>
+        <div class="col">
+            <a class="btn btn-outline-primary" href="{{ path('product_new') }}">Create new</a>
+        </div>
+    </div>
+    <hr>
 
-    <a href="{{ path('product_new') }}">Create new</a>
-
-    <table>
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for product in products %}
-            <tr>
-                <td>{{ product.id }}</td>
-                <td>{{ product.name }}</td>
-                <td>
-                    <a href="{{ path('product_show', {'id': product.id}) }}">show</a>
-                    <a href="{{ path('product_edit', {'id': product.id}) }}">edit</a>
-                    <form method="post" action="{{ path('product_delete', {'id': product.id}) }}" style="display: inline-block">
-                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
-                        <button class="btn" type="submit">delete</button>
-                    </form>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class="row">
+        <div class="col">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Discount %</th>
+                    <th scope="col">Stock</th>
+                    <th scope="col">Actions</th>
+                </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                {% for product in products %}
+                    <tr>
+                        <th scope="row">{{ product.id }}</th>
+                        <td>{{ product.name }}</td>
+                        <td>{{ product.description }}</td>
+                        <td>{{ product.price }}</td>
+                        <td>{{ product.discount }}</td>
+                        <td>{{ product.stock }}</td>
+                        <td>
+                            <a class="btn btn-outline-secondary"
+                               href="{{ path('product_show', {'id': product.id}) }}">Show</a>
+                            <a class="btn btn-outline-secondary"
+                               href="{{ path('product_edit', {'id': product.id}) }}">Edit</a>
+                            <form method="post"
+                                  action="{{ path('product_delete', {'id': product.id}) }}"
+                                  style="display: inline-block">
+                                <input type="hidden" name="_token"
+                                       value="{{ csrf_token('delete' ~ product.id) }}">
+                                <button class="btn btn-outline-danger" type="submit">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 {% endblock %}

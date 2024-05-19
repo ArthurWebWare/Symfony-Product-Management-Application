@@ -3,38 +3,51 @@
 {% block title %}Product{% endblock %}
 
 {% block body %}
-    <h1>Product</h1>
+    <div class="row">
+        <div class="col-12 d-flex justify-content-between">
+            <div>
+                <h3>{{ product.name }}</h3>
+            </div>
+            <div>
+                <a class="btn btn-outline-info" href="{{ path('product_index') }}">Return to product list</a>
+                <a class="btn btn-outline-success" href="{{ path('product_edit', {'id': product.id}) }}">Edit</a>
 
-    <table>
-        <tbody>
-        <tr>
-            <th>Id</th>
-            <td>{{ product.id }}</td>
-        </tr>
-        <tr>
-            <th>Name</th>
-            <td>{{ product.name }}</td>
-        </tr>
-        <tr>
-            <th>Price</th>
-            <td>{{ product.price }}</td>
-        </tr>
-        <tr>
-            <th>Stock</th>
-            <td>{{ product.stock }}</td>
-        </tr>
-        <tr>
-            <th>Discount</th>
-            <td>{{ product.discount }}</td>
-        </tr>
-        </tbody>
-    </table>
+                <form method="post" action="{{ path('product_delete', {'id': product.id}) }}" style="display: inline-block">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
+                    <button class="btn btn-outline-danger" type="submit">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
 
-    <a href="{{ path('product_index') }}">back to list</a>
-    <a href="{{ path('product_edit', {'id': product.id}) }}">edit</a>
+    <hr>
 
-    <form method="post" action="{{ path('product_delete', {'id': product.id}) }}" style="display: inline-block">
-        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
-        <button class="btn" type="submit">delete</button>
-    </form>
+    <div class="row align-items-center justify-content-between">
+        <div class="col-4">
+            <table class="table">
+                <tbody class="table-group-divider">
+                <tr>
+                    <th>Id</th>
+                    <td>{{ product.id }}</td>
+                </tr>
+                <tr>
+                    <th>Price</th>
+                    <td>{{ product.price }}</td>
+                </tr>
+                <tr>
+                    <th>Discount</th>
+                    <td>{{ product.discount }}</td>
+                </tr>
+                <tr>
+                    <th>Stock</th>
+                    <td>{{ product.stock }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-3">
+            <img style=" max-width: 100%;" src="https://m.media-amazon.com/images/I/81PVQ+v6HzL._AC_SY879_.jpg"
+                 alt="{{ product.name }} photo">
+        </div>
+    </div>
 {% endblock %}

@@ -3,8 +3,10 @@
 namespace App\Entity;
 
 use App\Repository\ProductRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class Product
@@ -31,6 +33,16 @@ class Product
 
     #[ORM\Column(nullable: true)]
     private ?int $discount = null;
+
+    #[ORM\ManyToMany(targetEntity: ProductCategory::class)]
+    #[ORM\JoinTable(name: "product_2_categories")]
+    #[ORM\JoinColumn(referencedColumnName: "id", nullable: false)]
+    private Collection $categories;
+
+    public function __construct()
+    {
+        $this->categories = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -113,6 +125,28 @@ class Product
     {
         $this->discount = $discount;
 
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    public function addCategory(ProductCategory $category): self
+    {
+        if (!$this->categories->contains($category)) {
+            $this->categories[] = $category;
+        }
+        return $this;
+    }
+
+    public function removeCategory(ProductCategory $category): self
+    {
+        $this->categories->removeElement($category);
         return $this;
     }
 }

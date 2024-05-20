@@ -32,6 +32,7 @@ This project is a Symfony application developed using the Symfony 7 framework an
 ## Installation
 - Install Docker Compose
 - git clone git@github.com:ArthurWebWare/optimum.git
+- rename .env-example to .env in root directory and app directory
 - docker-compose build
 - docker-compose up -d
 - docker exec -it symfony-app-php-cli bash

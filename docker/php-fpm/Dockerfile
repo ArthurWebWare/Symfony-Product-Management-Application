@@ -1,12 +1,15 @@
 FROM php:8.2-fpm
 
+# Install necessary dependencies
 RUN apt-get update && apt-get install -y \
     libpq-dev \
     wget \
     zlib1g-dev \
     libmcrypt-dev \
     libzip-dev \
-    openssl \
+    librabbitmq-dev \
+    && pecl install amqp \
+    && docker-php-ext-enable amqp \
     && apt-get clean \
     && docker-php-ext-install pdo pdo_mysql
 

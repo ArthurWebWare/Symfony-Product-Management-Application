@@ -30,9 +30,14 @@ This project is a Symfony application developed using the Symfony 7 framework an
 - RabbitMQ
 
 ## Installation
+- Install Docker Compose
+- git clone git@github.com:ArthurWebWare/optimum.git
+- docker-compose build
+- docker-compose up -d
+- docker exec -it symfony-app-php-cli bash
+- Install composer dependences
+- Install npm dependencies
+- Run from browser http://localhost:8081/
 
-TBD
-
-[//]: # (1. **Clone the repository:**)
 
   

@@ -35,9 +35,14 @@ This project is a Symfony application developed using the Symfony 7 framework an
 - rename .env-example to .env in root directory and app directory
 - docker-compose build
 - docker-compose up -d
-- docker exec -it symfony-app-php-cli bash
-- Install composer dependences
+- Install dependencies - use Makefile
+```bash
+  make composer_install
+```
 - Install npm dependencies
+```bash
+  make npm_install
+```
 - Run from browser http://localhost:8081/
 - RabbitMQ dashboard http://localhost:15672/
 
@@ -58,4 +63,208 @@ This project is a Symfony application developed using the Symfony 7 framework an
 **Search page**
 ![image](https://github.com/ArthurWebWare/Symfony-Product-Management-Application/assets/48259679/a894cec2-b39e-4488-816b-98fd098054b0)
 
-  
+---
+
+# Symfony Docker Makefile Documentation
+
+## Variables
+
+```makefile
+DOCKER_COMPOSE = docker-compose
+DOCKER_COMPOSE_PHP_FPM_EXEC = docker exec -it symfony-app-php-fpm
+DOCKER_COMPOSE_PHP_CLI_EXEC = docker exec -it symfony-app-php-cli
+```
+
+These variables are defined to simplify the use of Docker Compose and Docker Exec commands throughout the Makefile.
+
+## Docker Compose Commands
+
+### Build the Docker images
+
+```sh
+make build
+```
+
+This command builds the Docker images specified in your `docker-compose.yml` file.
+
+### Start the Docker containers
+
+```sh
+make start
+```
+
+This command starts the Docker containers as defined in your `docker-compose.yml` file.
+
+### Stop the Docker containers
+
+```sh
+make stop
+```
+
+This command stops the running Docker containers without removing them.
+
+### Bring up the Docker containers
+
+```sh
+make up
+```
+
+This command brings up the Docker containers in detached mode, ensuring any orphaned containers are removed.
+
+### Take down the Docker containers
+
+```sh
+make down
+```
+
+This command stops and removes the Docker containers, networks, volumes, and images created by `up`.
+
+### Restart the Docker containers
+
+```sh
+make restart
+```
+
+This command stops and then starts the Docker containers.
+
+### Rebuild the Docker images and containers
+
+```sh
+make rebuild
+```
+
+This command takes down the Docker containers, rebuilds the images, and then brings the containers back up.
+
+### Display the status of Docker containers
+
+```sh
+make dc_ps
+```
+
+This command shows the status of all Docker containers.
+
+### Display the logs of Docker containers
+
+```sh
+make dc_logs
+```
+
+This command tails the logs of all Docker containers.
+
+### Take down and clean Docker containers
+
+```sh
+make dc_down
+```
+
+This command stops and removes the Docker containers, volumes, images, and orphaned containers.
+
+### Restart Docker containers
+
+```sh
+make dc_restart
+```
+
+This command stops and starts the Docker containers by invoking the `dc_stop` and `dc_start` commands.
+
+## Application Commands
+
+### Open a bash shell in the PHP-FPM container
+
+```sh
+make app_bash
+make php
+```
+
+These commands open an interactive bash shell in the `symfony-app-php-fpm` container.
+
+### Open a bash shell in the PHP-CLI container
+
+```sh
+make cli_bash
+make cli
+```
+
+These commands open an interactive bash shell in the `symfony-app-php-cli` container.
+
+### Run PHPUnit tests
+
+```sh
+make test
+```
+
+This command runs PHPUnit tests within the PHP-FPM container.
+
+### Clear Symfony cache
+
+```sh
+make cache
+```
+
+This command clears the Symfony cache for both the default and test environments.
+
+## Database Commands
+
+### Run database migrations
+
+```sh
+make db_migrate
+make migrate
+```
+
+These commands run the database migrations using Doctrine.
+
+### Generate a migration by comparing your current database schema to your mapping information
+
+```sh
+make db_diff
+make diff
+```
+
+These commands generate a migration file based on the differences between the current database schema and the mapping information.
+
+### Validate the database schema
+
+```sh
+make db_schema_validate
+```
+
+This command validates the database schema.
+
+### Rollback a specific migration
+
+```sh
+make db_migration_down
+```
+
+This command rolls back a specific migration. Replace `Version********` with the appropriate migration version.
+
+### Drop the database schema
+
+```sh
+make db_drop
+```
+
+This command drops the database schema.
+
+## Composer Commands
+
+### Install Composer dependencies
+
+```sh
+make composer_install
+```
+
+This command installs the Composer dependencies within the PHP-CLI container.
+
+## NPM Commands
+
+### Install NPM dependencies
+
+```sh
+make npm_install
+```
+
+This command installs the NPM dependencies within the PHP-CLI container.
+
+---

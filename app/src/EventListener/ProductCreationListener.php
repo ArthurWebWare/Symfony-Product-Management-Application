@@ -27,14 +27,12 @@ class ProductCreationListener
     }
 
     /**
-     * @param Product $product
      * @param LifecycleEventArgs $event
      * @return void
      */
     public function postPersist(LifecycleEventArgs $event): void
     {
         $product = $event->getObject();
-//        dd();
         $this->messageBus->dispatch(new EmailNotification($product->getId()));
     }
 }

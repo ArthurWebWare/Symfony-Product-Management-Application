@@ -2,8 +2,10 @@
 
 namespace App\MessageHandler;
 
+use App\Entity\Product;
 use App\Message\EmailNotification;
 use App\Repository\ProductRepository;
+use Exception;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
@@ -20,6 +22,7 @@ class EmailNotificationHandler
     /**
      * @param ProductRepository $productRepository
      * @param MailerInterface $mailer
+     * @param LoggerInterface $logger
      */
     public function __construct(ProductRepository $productRepository, MailerInterface $mailer, LoggerInterface $logger)
     {
@@ -31,27 +34,42 @@ class EmailNotificationHandler
     /**
      * @param EmailNotification $message
      * @return void
-     * @throws TransportExceptionInterface
+     * @throws TransportExceptionInterface|Exception
      */
     public function __invoke(EmailNotification $message): void
     {
-        $this->logger->info('Processing email notification for product ID: '.$message->getProductId());
+        $productId = $message->getProductId();
 
-        $product = $this->productRepository->find($message->getProductId());
+        $this->logger->info('Processing email notification for product ID: ' . $productId);
+
+        $product = $this->productRepository->find($productId);
 
         if (!$product) {
-            $this->logger->error('Product not found for ID: '.$message->getProductId());
-            throw new \Exception('Product not found');
+            $this->logger->error('Product not found for ID: ' . $productId);
+            throw new Exception('Product not found');
         }
 
-        $email = (new Email())
-            ->from('no-reply@example.com')
-            ->to('user@example.com')
-            ->subject('New Product Created')
-            ->text('A new product named ' . $product->getName() . ' has been created.');
+        $this->sendEmail($product);
 
-        $this->mailer->send($email);
+        $this->logger->info('Email sent for product ID: ' . $productId);
+    }
 
-        $this->logger->info('Email sent for product ID: '.$message->getProductId());
+    /**
+     * @param Product $product
+     * @return void
+     * @throws TransportExceptionInterface
+     */
+    private function sendEmail(Product $product): void
+    {
+        $subject = 'New Product Created';
+        $content = 'A new product named ' . $product->getName() . ' with ID: ' . $product->getId() . ' has been created.';
+
+        $this->mailer->send(
+            (new Email())
+                ->from($_ENV['MAILER_APP_ADDR'])
+                ->to($_ENV['MAILER_ADMIN_ADDR'])
+                ->subject($subject)
+                ->text($content)
+        );
     }
 }

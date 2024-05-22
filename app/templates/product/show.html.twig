@@ -45,9 +45,11 @@
                 </tbody>
             </table>
         </div>
-        <div class="col-3">
-            <img style=" max-width: 100%;" src="https://m.media-amazon.com/images/I/81PVQ+v6HzL._AC_SY879_.jpg"
-                 alt="{{ product.name }} photo">
-        </div>
+        {% if product.image is not empty %}
+            <div class="col-3">
+                <img style=" max-width: 100%;" src="{{ product.image }}"
+                     alt="{{ product.name }} photo">
+            </div>
+        {% endif %}
     </div>
 {% endblock %}

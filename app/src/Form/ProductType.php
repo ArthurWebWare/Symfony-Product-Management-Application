@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -23,6 +24,10 @@ class ProductType extends AbstractType
             ])
             ->add('description', TextareaType::class, [
                 'attr' => ['class' => 'form-control'],
+                'label_attr' => ['class' => 'form-label'],
+            ])
+            ->add('image', UrlType::class, [
+                'attr' => ['class' => 'form-control', 'placeholder' => 'https://', 'value' => 'https://picsum.photos/200/300'],
                 'label_attr' => ['class' => 'form-label'],
             ])
             ->add('price', IntegerType::class, [

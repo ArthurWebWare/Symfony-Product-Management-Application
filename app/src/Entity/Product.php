@@ -34,6 +34,9 @@ class Product
     #[ORM\Column(nullable: true)]
     private ?int $discount = null;
 
+    #[ORM\Column(type: Types::STRING, nullable: true)]
+    private ?string $image = null;
+
     #[ORM\ManyToMany(targetEntity: ProductCategory::class, inversedBy: 'products')]
     #[ORM\JoinTable(name: "product_2_categories")]
     #[ORM\JoinColumn(name: "product_id", referencedColumnName: "id", onDelete: "CASCADE")]
@@ -148,6 +151,18 @@ class Product
     public function removeCategory(ProductCategory $category): self
     {
         $this->categories->removeElement($category);
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): static
+    {
+        $this->image = $image;
+
         return $this;
     }
 }

@@ -34,9 +34,10 @@ class Product
     #[ORM\Column(nullable: true)]
     private ?int $discount = null;
 
-    #[ORM\ManyToMany(targetEntity: ProductCategory::class)]
+    #[ORM\ManyToMany(targetEntity: ProductCategory::class, inversedBy: 'products')]
     #[ORM\JoinTable(name: "product_2_categories")]
-    #[ORM\JoinColumn(referencedColumnName: "id", nullable: false)]
+    #[ORM\JoinColumn(name: "product_id", referencedColumnName: "id", onDelete: "CASCADE")]
+    #[ORM\InverseJoinColumn(name: "category_id", referencedColumnName: "id", onDelete: "RESTRICT")]
     private Collection $categories;
 
     public function __construct()

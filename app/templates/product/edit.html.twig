@@ -38,11 +38,13 @@
     </div>
     <div class="mb-3">
         <button class="btn btn-outline-success">{{ button_label|default('Save') }}</button>
+        <a class="btn btn-outline-danger" href="{{ path('product_index') }}">Back to list</a>
+    </div>
+    {{ form_end(form) }}
+    <div class="mb-3">
         <form method="post" action="{{ path('product_delete', {'id': product.id}) }}" style="display: inline-block">
             <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
             <button class="btn btn-outline-warning" type="submit">Delete</button>
         </form>
-        <a class="btn btn-outline-danger" href="{{ path('product_index') }}">Back to list</a>
     </div>
-    {{ form_end(form) }}
 {% endblock %}
